@@ -1,6 +1,6 @@
 # Sistema de Gestão das Olimpíadas (SGO)
 
-Trabalho 1 — Primeira entrega da disciplina **Projeto de Software**
+Trabalho — Primeira entrega da disciplina **Projeto de Software**
 
 Curso de Engenharia de Software — PUC Minas
 
