@@ -33,15 +33,15 @@ Este repositório contém a modelagem em **UML** (PlantUML) do **Sistema de Gest
 
 ## 📌 Descrição do Sistema
 
-Com a chegada das Olimpíadas, um novo sistema de gestão é necessário para coordenar os diferentes aspectos do evento. O **SGO** permite o gerenciamento de competições, a inscrição de atletas de diferentes países, a alocação de locais para as provas e o controle dos resultados, gerando ao final relatórios de desempenho por país com base nas medalhas conquistadas.
+Com a chegada das Olimpíadas, um novo sistema de gestão é necessário para coordenar os diferentes aspectos do evento. O SGO permite o gerenciamento de competições, a inscrição de atletas de diferentes países, a alocação de locais para as provas e o controle dos resultados, gerando ao final relatórios de desempenho por país com base nas medalhas conquistadas.
 
 ---
 
 ## 📋 Regras de Negócio
 
 1. **Cadastro de Competições** — o sistema permite o cadastro de competições contendo nome da modalidade, data, horário, local e lista de atletas inscritos.
-2. **Inscrição de Atletas** — atletas de diferentes países se inscrevem em competições específicas. Um atleta pode participar de várias competições, mas só pode representar **um país por modalidade**.
-3. **Alocação de Locais** — locais são alocados de forma a evitar conflitos de horário; **um local só pode abrigar uma competição por vez**.
+2. **Inscrição de Atletas** — atletas de diferentes países se inscrevem em competições específicas. Um atleta pode participar de várias competições, mas só pode representar um país por modalidade.
+3. **Alocação de Locais** — locais são alocados de forma a evitar conflitos de horário; um local só pode abrigar uma competição por vez.
 4. **Controle de Resultados** — após a realização das competições, os resultados são registrados determinando o atleta vencedor e os classificados em segundo e terceiro lugares.
 5. **Relatórios de Medalhas** — o sistema gera relatórios mostrando o desempenho de cada país com base nas medalhas de ouro, prata e bronze conquistadas.
 
@@ -50,40 +50,40 @@ Com a chegada das Olimpíadas, um novo sistema de gestão é necessário para co
 ## 👤 Histórias de Usuário
 
 **US01 — Cadastrar competição**
-Eu, como **organizador**, quero **cadastrar uma competição** informando modalidade, data, horário e local, para **organizar a agenda dos jogos**.
+Eu, como **organizador**, quero cadastrar uma competição informando modalidade, data, horário e local, para organizar a agenda dos jogos.
 
 **US02 — Inscrever atleta em competição**
-Eu, como **atleta**, quero **me inscrever em uma competição representando o meu país**, para **participar oficialmente da modalidade**.
+Eu, como atleta, quero me inscrever em uma competição representando o meu país, para participar oficialmente da modalidade.
 
 **US03 — Restringir representação a um país por modalidade**
-Eu, como **organizador**, quero que o sistema **impeça que um mesmo atleta represente mais de um país em uma mesma modalidade**, para **garantir a integridade da competição**.
+Eu, como organizador, quero que o sistema impeça que um mesmo atleta represente mais de um país em uma mesma modalidade, para garantir a integridade da competição.
 
 **US04 — Cadastrar local de prova**
-Eu, como **administrador**, quero **cadastrar locais com capacidade e endereço**, para **disponibilizá-los para alocação em competições**.
+Eu, como administrador, quero cadastrar locais com capacidade e endereço, para disponibilizá-los para alocação em competições.
 
 **US05 — Alocar local sem conflito de horário**
-Eu, como **organizador**, quero **alocar um local para uma competição em uma data e horário específicos**, para **evitar que duas competições ocupem o mesmo local ao mesmo tempo**.
+Eu, como organizador, quero alocar um local para uma competição em uma data e horário específicos, para evitar que duas competições ocupem o mesmo local ao mesmo tempo.
 
 **US06 — Registrar resultados de uma competição**
-Eu, como **juiz**, quero **registrar o resultado de uma competição informando os classificados em 1º, 2º e 3º lugar**, para **oficializar o desempenho dos atletas**.
+Eu, como juiz, quero registrar o resultado de uma competição informando os classificados em 1º, 2º e 3º lugar, para oficializar o desempenho dos atletas.
 
 **US07 — Atribuir medalhas automaticamente**
-Eu, como **organizador**, quero que o sistema **atribua automaticamente as medalhas de ouro, prata e bronze ao registrar o resultado**, para **reduzir trabalho manual e evitar erros**.
+Eu, como organizador, quero que o sistema atribua automaticamente as medalhas de ouro, prata e bronze ao registrar o resultado, para reduzir trabalho manual e evitar erros.
 
 **US08 — Consultar programação das competições**
-Eu, como **público**, quero **consultar a programação das competições por data, modalidade e local**, para **acompanhar os eventos**.
+Eu, como público, quero consultar a programação das competições por data, modalidade e local, para acompanhar os eventos.
 
 **US09 — Consultar resultados oficiais**
-Eu, como **público**, quero **consultar os resultados oficiais de cada competição**, para **acompanhar o desempenho dos atletas e países**.
+Eu, como público, quero consultar os resultados oficiais de cada competição, para acompanhar o desempenho dos atletas e países.
 
 **US10 — Gerar relatório de medalhas por país**
-Eu, como **organizador**, quero **gerar um relatório com o quadro de medalhas por país (ouro, prata e bronze)**, para **avaliar o desempenho geral de cada nação na Olimpíada**.
+Eu, como organizador, quero gerar um relatório com o quadro de medalhas por país (ouro, prata e bronze), para avaliar o desempenho geral de cada nação na Olimpíada.
 
 **US11 — Cadastrar atleta e seu país**
-Eu, como **administrador**, quero **cadastrar atletas e vincular cada um a um país**, para **manter a base oficial de participantes**.
+Eu, como administrador, quero cadastrar atletas e vincular cada um a um país, para manter a base oficial de participantes.
 
 **US12 — Autenticar usuários por perfil**
-Eu, como **usuário do sistema**, quero **fazer login com meu perfil (administrador, organizador, juiz ou atleta)**, para **acessar apenas as funcionalidades correspondentes ao meu papel**.
+Eu, como usuário do sistema, quero fazer login com meu perfil (administrador, organizador, juiz ou atleta), para acessar apenas as funcionalidades correspondentes ao meu papel.
 
 ---
 
