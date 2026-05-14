@@ -1,0 +1,69 @@
+@startuml diagrama-de-caso-de-uso
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam actorStyle awesome
+title Sistema de Gestao das Olimpiadas (SGO) - Casos de Uso
+
+actor "Administrador" as Admin
+actor "Organizador" as Org
+actor "Atleta" as Atleta
+actor "Juiz" as Juiz
+actor "Publico" as Publico
+
+rectangle "SGO" {
+  usecase "Autenticar Usuario" as UC_Login
+  usecase "Cadastrar Competicao" as UC_CadComp
+  usecase "Inscrever Atleta" as UC_Inscrever
+  usecase "Cadastrar Atleta" as UC_CadAtleta
+  usecase "Cadastrar Pais" as UC_CadPais
+  usecase "Cadastrar Local" as UC_CadLocal
+  usecase "Alocar Local" as UC_Alocar
+  usecase "Verificar Conflito de Horario" as UC_Conflito
+  usecase "Registrar Resultado" as UC_Resultado
+  usecase "Definir Medalhistas" as UC_Medalhas
+  usecase "Gerar Relatorio de Medalhas" as UC_Relatorio
+  usecase "Consultar Programacao" as UC_Programacao
+  usecase "Consultar Resultados" as UC_ConsResult
+}
+
+Admin --> UC_Login
+Admin --> UC_CadPais
+Admin --> UC_CadLocal
+Admin --> UC_CadAtleta
+
+Org --> UC_Login
+Org --> UC_CadComp
+Org --> UC_Alocar
+Org --> UC_Relatorio
+
+Atleta --> UC_Login
+Atleta --> UC_Inscrever
+Atleta --> UC_Programacao
+Atleta --> UC_ConsResult
+
+Juiz --> UC_Login
+Juiz --> UC_Resultado
+
+Publico --> UC_Programacao
+Publico --> UC_ConsResult
+Publico --> UC_Relatorio
+
+UC_CadComp ..> UC_CadLocal : <<include>>
+UC_Inscrever ..> UC_CadAtleta : <<include>>
+UC_Inscrever ..> UC_CadPais : <<include>>
+UC_Alocar ..> UC_Conflito : <<include>>
+UC_Resultado ..> UC_Medalhas : <<include>>
+UC_Relatorio ..> UC_Medalhas : <<include>>
+
+note right of UC_Conflito
+  Um local so pode abrigar
+  uma competicao por vez.
+end note
+
+note right of UC_Inscrever
+  Atleta representa apenas
+  um pais por modalidade.
+end note
+
+@enduml

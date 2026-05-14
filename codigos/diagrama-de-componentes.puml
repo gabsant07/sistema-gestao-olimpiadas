@@ -1,0 +1,69 @@
+@startuml diagrama-de-componentes
+skinparam shadowing false
+skinparam componentStyle uml2
+title Sistema de Gestao das Olimpiadas (SGO) - Diagrama de Componentes
+
+actor "Usuario" as User
+
+package "Cliente" {
+  [Interface Web]   as UIWeb
+  [App Mobile]      as UIMobile
+}
+
+package "Servidor de Aplicacao SGO" {
+  [API Gateway]              as Gateway
+  [Modulo de Autenticacao]   as ModAuth
+  [Modulo de Competicoes]    as ModComp
+  [Modulo de Inscricoes]     as ModInsc
+  [Modulo de Alocacao]       as ModAloc
+  [Modulo de Resultados]     as ModRes
+  [Modulo de Relatorios]     as ModRel
+  [Servico de Notificacao]   as ModNotif
+}
+
+database "Banco de Dados\nRelacional" as BD
+database "Cache" as Cache
+cloud "Servico de E-mail" as Email
+
+' Interfaces fornecidas/requeridas
+interface "HTTP/REST"  as IRest
+interface "JDBC/SQL"   as ISQL
+interface "SMTP"       as ISMTP
+
+User --> UIWeb
+User --> UIMobile
+
+UIWeb     --( IRest
+UIMobile  --( IRest
+IRest     -- Gateway
+
+Gateway --> ModAuth
+Gateway --> ModComp
+Gateway --> ModInsc
+Gateway --> ModAloc
+Gateway --> ModRes
+Gateway --> ModRel
+
+ModInsc  ..> ModComp  : verifica competicao
+ModAloc  ..> ModComp  : associa local
+ModRes   ..> ModComp  : atualiza status
+ModRel   ..> ModRes   : consulta medalhas
+ModRel   ..> ModInsc  : consulta paises
+ModInsc  ..> ModNotif : confirma inscricao
+ModRes   ..> ModNotif : divulga resultado
+
+ModNotif --( ISMTP
+ISMTP    -- Email
+
+ModAuth  --( ISQL
+ModComp  --( ISQL
+ModInsc  --( ISQL
+ModAloc  --( ISQL
+ModRes   --( ISQL
+ModRel   --( ISQL
+ISQL     -- BD
+
+ModRel  ..> Cache : cache de relatorios
+ModComp ..> Cache : cache de programacao
+
+@enduml

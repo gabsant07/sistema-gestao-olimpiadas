@@ -1,0 +1,53 @@
+@startuml diagrama-de-implantacao
+skinparam shadowing false
+skinparam nodesep 60
+title Sistema de Gestao das Olimpiadas (SGO) - Diagrama de Implantacao
+
+node "Dispositivo do Usuario\n<<Desktop / Notebook>>" as Desktop {
+  artifact "Navegador Web\n(Chrome, Firefox, Edge)" as Navegador
+}
+
+node "Dispositivo Movel\n<<Smartphone / Tablet>>" as Mobile {
+  artifact "App SGO Mobile\n(Android / iOS)" as AppMobile
+}
+
+cloud "Internet" as Net
+
+node "Servidor Web\n<<NGINX>>" as ServWeb {
+  artifact "Frontend SGO\n(HTML/CSS/JS)" as Frontend
+  artifact "Reverse Proxy" as Proxy
+}
+
+node "Servidor de Aplicacao\n<<Docker / Linux>>" as ServApp {
+  artifact "API Gateway" as ArtGateway
+  artifact "Modulo de Competicoes" as ArtComp
+  artifact "Modulo de Inscricoes" as ArtInsc
+  artifact "Modulo de Alocacao" as ArtAloc
+  artifact "Modulo de Resultados" as ArtRes
+  artifact "Modulo de Relatorios" as ArtRel
+  artifact "Modulo de Autenticacao" as ArtAuth
+}
+
+node "Servidor de Banco de Dados\n<<PostgreSQL>>" as ServBD {
+  database "sgo_db" as DB
+}
+
+node "Servidor de Cache\n<<Redis>>" as ServCache {
+  artifact "Cache de Sessao" as ArtSessao
+  artifact "Cache de Relatorios" as ArtCacheRel
+}
+
+node "Servidor de E-mail\n<<SMTP>>" as ServEmail {
+  artifact "Servico de Notificacao" as ArtEmail
+}
+
+' Conexoes
+Desktop  --> Net : HTTPS
+Mobile   --> Net : HTTPS
+Net      --> ServWeb : HTTPS (443)
+ServWeb  --> ServApp : HTTP (REST / 8080)
+ServApp  --> ServBD : JDBC (5432)
+ServApp  --> ServCache : TCP (6379)
+ServApp  --> ServEmail : SMTP (587)
+
+@enduml

@@ -1,0 +1,72 @@
+@startuml diagrama-de-pacotes
+skinparam packageStyle folder
+skinparam shadowing false
+title Sistema de Gestao das Olimpiadas (SGO) - Diagrama de Pacotes
+
+package "br.sgo.apresentacao" as Apresentacao {
+  class TelaCompeticao
+  class TelaInscricao
+  class TelaResultado
+  class TelaRelatorio
+  class TelaLogin
+}
+
+package "br.sgo.controle" as Controle {
+  class CompeticaoController
+  class InscricaoController
+  class AlocacaoController
+  class ResultadoController
+  class RelatorioController
+  class AutenticacaoController
+}
+
+package "br.sgo.dominio" as Dominio {
+  class Competicao
+  class Atleta
+  class Pais
+  class Local
+  class Inscricao
+  class Resultado
+  class Medalha
+  class Modalidade
+}
+
+package "br.sgo.servico" as Servico {
+  class ServicoCompeticao
+  class ServicoInscricao
+  class ServicoAlocacao
+  class ServicoResultado
+  class ServicoRelatorio
+}
+
+package "br.sgo.persistencia" as Persistencia {
+  class CompeticaoDAO
+  class AtletaDAO
+  class PaisDAO
+  class LocalDAO
+  class ResultadoDAO
+  class MedalhaDAO
+}
+
+package "br.sgo.util" as Util {
+  class ValidadorConflito
+  class GeradorRelatorioPDF
+  class Logger
+  class ConexaoBD
+}
+
+package "br.sgo.seguranca" as Seguranca {
+  class GerenciadorSessao
+  class ControleAcesso
+}
+
+Apresentacao ..> Controle : usa
+Controle ..> Servico : usa
+Servico ..> Dominio : manipula
+Servico ..> Persistencia : acessa
+Persistencia ..> Dominio : retorna
+Servico ..> Util : utiliza
+Controle ..> Seguranca : valida
+Persistencia ..> Util : utiliza
+
+@enduml
