@@ -1,0 +1,117 @@
+@startuml
+autonumber
+skinparam style strictuml
+skinparam BackgroundColor white
+skinparam BoxPadding 10
+skinparam ParticipantPadding 12
+
+actor "Organizador / Delegado" as User
+participant "Interface (UI/Frontend)" as View
+participant "Backend Controller" as Ctrl
+participant "Regra de Negócio (Service)" as Service
+participant "Acesso a Dados (Repository)" as Repo
+database "Banco de Dados (DB)" as DB
+
+== Inscrição de Atletas ==
+User -> View : Preenche e envia formulário de inscrição
+activate View
+View -> Ctrl : POST /atletas (dadosAtleta)
+activate Ctrl
+Ctrl -> Service : cadastrarAtleta(dadosAtleta)
+activate Service
+Service -> Service : validarDadosAtleta(dadosAtleta)
+
+Service -> Repo : verificarDuplicidade(cpfOrPassaporte)
+activate Repo
+Repo -> DB : SELECT COUNT(*) FROM atletas WHERE...
+activate DB
+DB --> Repo : 0
+deactivate DB
+Repo --> Service : Permitido (não duplicado)
+deactivate Repo
+
+Service -> Repo : salvar(novoAtleta)
+activate Repo
+Repo -> DB : INSERT INTO atletas (...) VALUES (...)
+activate DB
+DB --> Repo : Sucesso (ID gerado)
+deactivate DB
+Repo --> Service : objetoAtletaSalvo
+deactivate Repo
+
+Service --> Ctrl : DTO de Confirmação
+deactivate Service
+Ctrl --> View : 201 Created (Mensagem de Sucesso)
+deactivate Ctrl
+View --> User : Exibe mensagem: "Atleta inscrito com sucesso!"
+deactivate View
+
+== Alocação de Locais ==
+User -> View : Seleciona o Evento e o Local da Competição
+activate View
+View -> Ctrl : POST /alocacoes (eventoId, localId, dataHorario)
+activate Ctrl
+Ctrl -> Service : alocarLocal(eventoId, localId, dataHorario)
+activate Service
+
+Service -> Repo : buscarEventoPorId(eventoId)
+activate Repo
+Repo -> DB : SELECT * FROM eventos WHERE id = ...
+activate DB
+DB --> Repo : dadosEvento
+deactivate DB
+Repo --> Service : objetoEvento
+deactivate Repo
+
+Service -> Repo : buscarLocalPorId(localId)
+activate Repo
+Repo -> DB : SELECT * FROM locais WHERE id = ...
+activate DB
+DB --> Repo : dadosLocal
+deactivate DB
+Repo --> Service : objetoLocal
+deactivate Repo
+
+Service -> Service : verificarDisponibilidade(objetoLocal, dataHorario)
+Service -> Repo : atualizarLocalEvento(eventoId, localId)
+activate Repo
+Repo -> DB : UPDATE eventos SET local_id = ... WHERE id = ...
+activate DB
+DB --> Repo : Sucesso
+deactivate DB
+Repo --> Service : Status OK
+deactivate Repo
+
+Service --> Ctrl : Confirmação de alocação
+deactivate Service
+Ctrl --> View : 200 OK (Local alocado)
+deactivate Ctrl
+View --> User : Exibe mensagem: "Local alocado com sucesso!"
+deactivate View
+
+== Registro de Resultados ==
+User -> View : Insere pontuações/tempos e atletas vencedores
+activate View
+View -> Ctrl : POST /resultados (dadosResultado)
+activate Ctrl
+Ctrl -> Service : registrarResultado(dadosResultado)
+activate Service
+
+Service -> Service : validarRegrasResultado(dadosResultado)
+Service -> Repo : salvarResultado(dadosResultado)
+activate Repo
+Repo -> DB : INSERT INTO resultados (...) VALUES (...)
+activate DB
+DB --> Repo : Sucesso
+deactivate DB
+Repo --> Service : objetoResultadoSalvo
+deactivate Repo
+
+Service --> Ctrl : Resultado cadastrado com sucesso
+deactivate Service
+Ctrl --> View : 201 Created (Resultado Registrado)
+deactivate Ctrl
+View --> User : Atualiza o painel e exibe os resultados salvos
+deactivate View
+
+@enduml
